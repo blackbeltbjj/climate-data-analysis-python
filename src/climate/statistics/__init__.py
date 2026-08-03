@@ -6,6 +6,10 @@ from climate.statistics.autocorrelation import (
     AutocorrelationReport,
     autocorrelation_report,
 )
+from climate.statistics.cross_correlation import (
+    CrossCorrelationReport,
+    cross_correlation_report,
+)
 from climate.statistics.decomposition import STLReport, stl_decompose
 from climate.statistics.descriptive import StatisticsReport, describe
 from climate.statistics.seasonality import (
@@ -24,6 +28,7 @@ from climate.statistics.trend import TrendReport, linear_trend
 
 __all__ = [
     "AutocorrelationReport",
+    "CrossCorrelationReport",
     "STLReport",
     "SeasonalityReport",
     "SpectralReport",
@@ -32,6 +37,7 @@ __all__ = [
     "TrendReport",
     "adf_test",
     "autocorrelation_report",
+    "cross_correlation_report",
     "describe",
     "kpss_test",
     "linear_trend",
