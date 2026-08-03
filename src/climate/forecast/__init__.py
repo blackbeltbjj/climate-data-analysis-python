@@ -7,7 +7,14 @@ from climate.forecast.arima import (
     arima_forecast,
 )
 
+from climate.forecast.evaluation import (
+    ForecastEvaluation,
+    evaluate_forecast,
+)
+
 __all__ = [
     "ForecastReport",
     "arima_forecast",
+    "ForecastEvaluation",
+    "evaluate_forecast",
 ]
