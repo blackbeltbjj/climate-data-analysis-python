@@ -41,8 +41,7 @@ def _resample(
     except KeyError as exc:
         allowed = ", ".join(methods)
         raise ValueError(
-            f"Unsupported aggregation: {aggregation}. "
-            f"Choose from: {allowed}."
+            f"Unsupported aggregation: {aggregation}. " f"Choose from: {allowed}."
         ) from exc
 
     return method()

@@ -27,9 +27,7 @@ def test_time_series_report_for_daily_series():
 def test_time_series_report_detects_duplicates():
     series = pd.Series(
         [28.1, 28.2, 28.3],
-        index=pd.to_datetime(
-            ["2026-01-01", "2026-01-01", "2026-01-02"]
-        ),
+        index=pd.to_datetime(["2026-01-01", "2026-01-01", "2026-01-02"]),
     )
 
     report = time_series_report(series)

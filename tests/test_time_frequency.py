@@ -37,9 +37,7 @@ def test_infer_frequency_requires_three_timestamps():
 
 
 def test_infer_frequency_rejects_irregular_series():
-    index = pd.to_datetime(
-        ["2026-01-01", "2026-01-02", "2026-01-04"]
-    )
+    index = pd.to_datetime(["2026-01-01", "2026-01-02", "2026-01-04"])
     series = pd.Series([28.1, 28.2, 28.4], index=index)
 
     with pytest.raises(

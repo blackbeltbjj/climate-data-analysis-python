@@ -4,7 +4,7 @@ Seasonality analysis utilities.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 
 import pandas as pd
 
@@ -48,9 +48,7 @@ def monthly_anomalies(series: pd.Series) -> pd.Series:
 
     for month in range(1, 13):
         mask = anomalies.index.month == month
-        anomalies.loc[mask] = (
-            anomalies.loc[mask] - climatology.loc[month]
-        )
+        anomalies.loc[mask] = anomalies.loc[mask] - climatology.loc[month]
 
     return anomalies
 

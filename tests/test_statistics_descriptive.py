@@ -65,4 +65,3 @@ def test_statistics_report_to_dict():
     assert d["observations"] == 3
     assert d["mean"] == pytest.approx(2.0)
     assert "standard_deviation" in d
-    

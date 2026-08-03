@@ -40,14 +40,10 @@ def validate_datetime_index(
 
     if require_unique and data.index.has_duplicates:
         duplicated = data.index[data.index.duplicated()].unique()
-        raise ValueError(
-            f"Duplicated timestamps found: {duplicated.tolist()}"
-        )
+        raise ValueError(f"Duplicated timestamps found: {duplicated.tolist()}")
 
     if require_sorted and not data.index.is_monotonic_increasing:
-        raise ValueError(
-            "The datetime index must be sorted chronologically."
-        )
+        raise ValueError("The datetime index must be sorted chronologically.")
 
 
 def find_missing_timestamps(

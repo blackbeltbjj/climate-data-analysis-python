@@ -21,9 +21,7 @@ def open_netcdf(
         raise FileNotFoundError(f"File not found: {path}")
 
     if path.suffix.lower() not in {".nc", ".nc4", ".cdf"}:
-        raise ValueError(
-            "Expected a NetCDF file with extension .nc, .nc4, or .cdf."
-        )
+        raise ValueError("Expected a NetCDF file with extension .nc, .nc4, or .cdf.")
 
     return xr.open_dataset(path)
 

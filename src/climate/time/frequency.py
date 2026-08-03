@@ -33,15 +33,11 @@ def infer_frequency(
     validate_datetime_index(data)
 
     if len(data.index) < 3:
-        raise ValueError(
-            "At least three timestamps are required to infer frequency."
-        )
+        raise ValueError("At least three timestamps are required to infer frequency.")
 
     frequency = pd.infer_freq(data.index)
 
     if frequency is None:
-        raise ValueError(
-            "Could not infer a regular temporal frequency."
-        )
+        raise ValueError("Could not infer a regular temporal frequency.")
 
     return frequency

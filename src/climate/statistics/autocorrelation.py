@@ -35,9 +35,7 @@ def autocorrelation_report(
     clean = series.dropna()
 
     if len(clean) <= nlags:
-        raise ValueError(
-            "The number of observations must be greater than nlags."
-        )
+        raise ValueError("The number of observations must be greater than nlags.")
 
     acf_values = sm_acf(clean, nlags=nlags, fft=True)
     pacf_values = sm_pacf(clean, nlags=nlags, method="ywm")

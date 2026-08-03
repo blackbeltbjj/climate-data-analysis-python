@@ -17,10 +17,7 @@ def create_report():
         freq="MS",
     )
 
-    values = (
-        np.linspace(0, 2, 120)
-        + np.sin(2 * np.pi * np.arange(120) / 12)
-    )
+    values = np.linspace(0, 2, 120) + np.sin(2 * np.pi * np.arange(120) / 12)
 
     series = pd.Series(values, index=dates)
 

@@ -74,11 +74,7 @@ def cross_correlation_report(
         correlations=correlations,
         max_correlation=float(valid_correlations[max_index]),
         max_correlation_lag=int(valid_lags[max_index]),
-        max_absolute_correlation=float(
-            valid_correlations[max_abs_index]
-        ),
-        max_absolute_correlation_lag=int(
-            valid_lags[max_abs_index]
-        ),
+        max_absolute_correlation=float(valid_correlations[max_abs_index]),
+        max_absolute_correlation_lag=int(valid_lags[max_abs_index]),
         zero_lag_correlation=float(correlations[zero_lag_index]),
     )

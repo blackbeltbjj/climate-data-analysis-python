@@ -4,7 +4,7 @@ Trend analysis utilities.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 
 import numpy as np
 import pandas as pd
@@ -47,7 +47,7 @@ def linear_trend(series: pd.Series) -> TrendReport:
         slope=float(result.slope),
         intercept=float(result.intercept),
         r_value=float(result.rvalue),
-        r_squared=float(result.rvalue ** 2),
+        r_squared=float(result.rvalue**2),
         p_value=float(result.pvalue),
         standard_error=float(result.stderr),
     )

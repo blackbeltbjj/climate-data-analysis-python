@@ -29,9 +29,7 @@ def test_validate_datetime_index_rejects_non_datetime_index():
 
 
 def test_validate_datetime_index_rejects_duplicates():
-    index = pd.to_datetime(
-        ["2026-01-01", "2026-01-01", "2026-01-02"]
-    )
+    index = pd.to_datetime(["2026-01-01", "2026-01-01", "2026-01-02"])
     series = pd.Series([28.1, 28.2, 28.4], index=index)
 
     with pytest.raises(ValueError, match="Duplicated timestamps"):
@@ -39,9 +37,7 @@ def test_validate_datetime_index_rejects_duplicates():
 
 
 def test_validate_datetime_index_rejects_unsorted_index():
-    index = pd.to_datetime(
-        ["2026-01-02", "2026-01-01", "2026-01-03"]
-    )
+    index = pd.to_datetime(["2026-01-02", "2026-01-01", "2026-01-03"])
     series = pd.Series([28.2, 28.1, 28.4], index=index)
 
     with pytest.raises(ValueError, match="sorted chronologically"):
@@ -49,9 +45,7 @@ def test_validate_datetime_index_rejects_unsorted_index():
 
 
 def test_find_missing_daily_timestamp():
-    index = pd.to_datetime(
-        ["2026-01-01", "2026-01-02", "2026-01-04"]
-    )
+    index = pd.to_datetime(["2026-01-01", "2026-01-02", "2026-01-04"])
     series = pd.Series([28.1, 28.2, 28.4], index=index)
 
     missing = find_missing_timestamps(series, frequency="D")
@@ -61,9 +55,7 @@ def test_find_missing_daily_timestamp():
 
 
 def test_find_missing_monthly_timestamp():
-    index = pd.to_datetime(
-        ["2026-01-01", "2026-02-01", "2026-04-01"]
-    )
+    index = pd.to_datetime(["2026-01-01", "2026-02-01", "2026-04-01"])
     series = pd.Series([28.1, 28.2, 28.4], index=index)
 
     missing = find_missing_timestamps(series, frequency="MS")
@@ -73,9 +65,7 @@ def test_find_missing_monthly_timestamp():
 
 
 def test_has_missing_timestamps_returns_true():
-    index = pd.to_datetime(
-        ["2026-01-01", "2026-01-03"]
-    )
+    index = pd.to_datetime(["2026-01-01", "2026-01-03"])
     series = pd.Series([28.1, 28.4], index=index)
 
     assert has_missing_timestamps(series, frequency="D") is True
