@@ -72,7 +72,16 @@ def test_find_missing_monthly_timestamp():
     pd.testing.assert_index_equal(missing, expected)
 
 
-def test_has_missing_timestamps_returns_false_for_complete_series():
+def test_has_missing_timestamps_returns_true():
+    index = pd.to_datetime(
+        ["2026-01-01", "2026-01-03"]
+    )
+    series = pd.Series([28.1, 28.4], index=index)
+
+    assert has_missing_timestamps(series, frequency="D") is True
+
+
+def test_has_missing_timestamps_returns_false():
     series = pd.Series(
         [28.1, 28.2, 28.4],
         index=pd.date_range("2026-01-01", periods=3, freq="D"),

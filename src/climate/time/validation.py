@@ -45,7 +45,9 @@ def validate_datetime_index(
         )
 
     if require_sorted and not data.index.is_monotonic_increasing:
-        raise ValueError("The datetime index must be sorted chronologically.")
+        raise ValueError(
+            "The datetime index must be sorted chronologically."
+        )
 
 
 def find_missing_timestamps(
@@ -60,16 +62,12 @@ def find_missing_timestamps(
     data
         Series or DataFrame with a DatetimeIndex.
     frequency
-        Expected pandas frequency, such as ``'D'``, ``'MS'``, or ``'h'``.
+        Expected pandas frequency (e.g. "D", "MS", "YS").
 
     Returns
     -------
     pandas.DatetimeIndex
         Missing timestamps between the first and last observations.
-
-    Examples
-    --------
-    >>> missing = find_missing_timestamps(series, frequency="MS")
     """
     validate_datetime_index(data)
 
@@ -90,7 +88,7 @@ def has_missing_timestamps(
     frequency: str,
 ) -> bool:
     """
-    Return whether a time series contains temporal gaps.
+    Check whether a regular time series contains temporal gaps.
 
     Parameters
     ----------
@@ -102,6 +100,6 @@ def has_missing_timestamps(
     Returns
     -------
     bool
-        True when at least one timestamp is missing.
+        True if one or more timestamps are missing.
     """
     return len(find_missing_timestamps(data, frequency)) > 0
