@@ -8,8 +8,13 @@ from climate.time.validation import (
     validate_datetime_index,
 )
 
+from climate.time.frequency import (
+    infer_frequency,
+)
+
 __all__ = [
+    "validate_datetime_index",
     "find_missing_timestamps",
     "has_missing_timestamps",
-    "validate_datetime_index",
+    "infer_frequency",
 ]
