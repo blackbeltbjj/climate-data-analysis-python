@@ -14,6 +14,7 @@ from climate.statistics.seasonality import (
     monthly_climatology,
     seasonality_report,
 )
+from climate.statistics.spectral import SpectralReport, spectral_report
 from climate.statistics.stationarity import (
     StationarityReport,
     adf_test,
@@ -25,6 +26,7 @@ __all__ = [
     "AutocorrelationReport",
     "STLReport",
     "SeasonalityReport",
+    "SpectralReport",
     "StationarityReport",
     "StatisticsReport",
     "TrendReport",
@@ -36,5 +38,6 @@ __all__ = [
     "monthly_anomalies",
     "monthly_climatology",
     "seasonality_report",
+    "spectral_report",
     "stl_decompose",
 ]
