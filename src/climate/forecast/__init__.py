@@ -12,9 +12,16 @@ from climate.forecast.evaluation import (
     evaluate_forecast,
 )
 
+from climate.forecast.baseline import (
+    mean_forecast,
+    persistence_forecast,
+)
+
 __all__ = [
     "ForecastReport",
     "arima_forecast",
     "ForecastEvaluation",
     "evaluate_forecast",
+    "mean_forecast",
+    "persistence_forecast",
 ]
