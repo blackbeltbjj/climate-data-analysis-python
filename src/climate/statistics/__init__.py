@@ -10,6 +10,11 @@ from climate.statistics.seasonality import (
     monthly_climatology,
     seasonality_report,
 )
+from climate.statistics.stationarity import (
+    StationarityReport,
+    adf_test,
+    kpss_test,
+)
 from climate.statistics.trend import TrendReport, linear_trend
 
 __all__ = [
@@ -17,10 +22,13 @@ __all__ = [
     "TrendReport",
     "SeasonalityReport",
     "STLReport",
+    "StationarityReport",
     "describe",
     "linear_trend",
     "monthly_climatology",
     "monthly_anomalies",
     "seasonality_report",
     "stl_decompose",
+    "adf_test",
+    "kpss_test",
 ]
