@@ -17,6 +17,11 @@ from climate.forecast.baseline import (
     persistence_forecast,
 )
 
+from climate.forecast.sarima import (
+    SARIMAForecastReport,
+    sarima_forecast,
+)
+
 __all__ = [
     "ForecastReport",
     "arima_forecast",
@@ -24,4 +29,6 @@ __all__ = [
     "evaluate_forecast",
     "mean_forecast",
     "persistence_forecast",
+    "SARIMAForecastReport",
+    "sarima_forecast",
 ]
