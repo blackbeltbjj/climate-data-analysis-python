@@ -44,6 +44,10 @@ from climate.ocean.diagnostics import (
     warm_pool_longitude_anomaly,
 )
 
+from climate.ocean.oisst import (
+    load_oisst,
+)
+
 __all__ = [
     "SSTReport",
     "sst_report",
@@ -63,4 +67,5 @@ __all__ = [
     "warm_pool_longitude_anomaly",
     "warm_pool_latitude_anomaly",
     "warm_pool_area_anomaly",
+    "load_oisst",
 ]

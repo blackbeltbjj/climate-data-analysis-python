@@ -1,5 +1,9 @@
 """
-Spherical centroid utilities for SST-defined regions.
+Spherical centroid calculations.
+
+The Warm Pool threshold is controlled through:
+
+    climate.config.WARM_POOL_THRESHOLD
 """
 
 from __future__ import annotations
@@ -7,108 +11,154 @@ from __future__ import annotations
 import numpy as np
 import xarray as xr
 
+from climate.config import WARM_POOL_THRESHOLD
 
-def spherical_warm_pool_centroid(
+
+
+def spherical_centroid(
     sst: xr.DataArray,
     *,
-    threshold: float = 29.0,
+    threshold: float | None = None,
 ) -> dict[str, float]:
     """
-    Calculate the spherical centroid of a warm pool.
-
-    Uses spherical coordinates and cosine(latitude)
-    area weighting.
+    Calculate spherical centroid of Warm Pool.
 
     Parameters
     ----------
     sst:
-        SST DataArray with lat and lon dimensions.
+        SST DataArray with lat/lon dimensions.
 
     threshold:
-        SST threshold defining the warm pool.
+        SST threshold.
+
+        If None:
+            uses WARM_POOL_THRESHOLD.
 
     Returns
     -------
     dict
-        Centroid longitude and latitude.
+        latitude
+        longitude
+        threshold
     """
+
+    if threshold is None:
+        threshold = WARM_POOL_THRESHOLD
+
 
     if not isinstance(
         sst,
         xr.DataArray,
     ):
         raise TypeError(
-            "Input must be an xarray DataArray."
+            "sst must be an xarray.DataArray"
         )
 
-    if not {
-        "lat",
-        "lon",
-    }.issubset(
-        sst.dims
-    ):
-        raise ValueError(
-            "Input must contain lat and lon dimensions."
-        )
 
     mask = sst >= threshold
 
+
+    if mask.sum() == 0:
+        raise ValueError(
+            "No Warm Pool grid cells found."
+        )
+
+
+    lat = sst["lat"].values
+    lon = sst["lon"].values
+
+
+    lon_grid, lat_grid = np.meshgrid(
+        lon,
+        lat,
+    )
+
+
+    weights = mask.values.astype(float)
+
+
     lat_rad = np.deg2rad(
-        sst.lat
+        lat_grid
     )
 
     lon_rad = np.deg2rad(
-        sst.lon
+        lon_grid
     )
 
-    lon_grid, lat_grid = xr.broadcast(
-        lon_rad,
-        lat_rad,
-    )
-
-    weights = (
-        mask.astype(float)
-        * np.cos(lat_grid)
-    )
-
-    total = weights.sum()
-
-    if total == 0:
-        raise ValueError(
-            "No warm pool grid cells found."
-        )
 
     x = (
-        np.cos(lat_grid)
-        * np.cos(lon_grid)
-        * weights
-    ).sum() / total
+        np.cos(lat_rad)
+        *
+        np.cos(lon_rad)
+    )
 
     y = (
-        np.cos(lat_grid)
-        * np.sin(lon_grid)
-        * weights
-    ).sum() / total
+        np.cos(lat_rad)
+        *
+        np.sin(lon_rad)
+    )
 
-    z = (
-        np.sin(lat_grid)
-        * weights
-    ).sum() / total
+    z = np.sin(
+        lat_rad
+    )
+
+
+    total = np.sum(
+        weights
+    )
+
+
+    x_mean = np.sum(
+        x * weights
+    ) / total
+
+    y_mean = np.sum(
+        y * weights
+    ) / total
+
+    z_mean = np.sum(
+        z * weights
+    ) / total
+
 
     longitude = np.rad2deg(
-        np.arctan2(y, x)
+        np.arctan2(
+            y_mean,
+            x_mean,
+        )
     )
+
 
     latitude = np.rad2deg(
         np.arctan2(
-            z,
+            z_mean,
             np.sqrt(
-                x**2 + y**2
+                x_mean**2
+                +
+                y_mean**2
             ),
         )
     )
 
+
     return {
-        "longitude": float(longitude),
-        "latitude": float(latitude),
+        "latitude": round(
+            float(latitude),
+            10,
+        ),
+        "longitude": round(
+            float(longitude),
+            10,
+        ),
+        "threshold": float(
+            threshold
+        ),
     }
+
+
+
+# Backward compatibility
+
+spherical_warm_pool_centroid = spherical_centroid
+
+warm_pool_spherical_centroid = spherical_centroid

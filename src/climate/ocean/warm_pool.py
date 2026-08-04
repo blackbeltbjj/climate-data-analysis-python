@@ -1,50 +1,80 @@
 """
-Pacific Warm Pool utilities.
+Warm Pool detection utilities.
 
-Defines warm pool detection based on sea surface
-temperature thresholds.
+The Warm Pool threshold is controlled through:
+
+    climate.config.WARM_POOL_THRESHOLD
 """
 
 from __future__ import annotations
 
 import xarray as xr
 
+from climate.config import WARM_POOL_THRESHOLD
 
-DEFAULT_THRESHOLD = 29.0
+
+# Backward compatibility
+DEFAULT_THRESHOLD = WARM_POOL_THRESHOLD
+
 
 
 def warm_pool_mask(
     sst: xr.DataArray,
     *,
-    threshold: float = DEFAULT_THRESHOLD,
+    threshold: float | None = None,
 ) -> xr.DataArray:
     """
-    Create a warm pool mask.
-
-    Grid cells with SST >= threshold are True.
+    Create Warm Pool boolean mask.
     """
 
-    if not isinstance(
-        sst,
-        xr.DataArray,
-    ):
-        raise TypeError(
-            "Input must be an xarray DataArray."
-        )
+    if threshold is None:
+        threshold = WARM_POOL_THRESHOLD
 
     return sst >= threshold
+
 
 
 def warm_pool_area(
     sst: xr.DataArray,
     *,
-    threshold: float = DEFAULT_THRESHOLD,
+    threshold: float | None = None,
 ) -> xr.DataArray:
     """
-    Calculate warm pool area fraction.
+    Calculate Warm Pool area.
 
-    Returns the fraction of grid cells exceeding
-    the SST threshold.
+    Original API behaviour:
+    returns area through spatial reduction.
+
+    Output dimensions:
+        time
+    """
+
+    if threshold is None:
+        threshold = WARM_POOL_THRESHOLD
+
+
+    mask = warm_pool_mask(
+        sst,
+        threshold=threshold,
+    )
+
+
+    return mask.sum(
+        dim=[
+            "lat",
+            "lon",
+        ]
+    )
+
+
+
+def warm_pool_area_fraction(
+    sst: xr.DataArray,
+    *,
+    threshold: float | None = None,
+) -> float:
+    """
+    Calculate Warm Pool fraction.
     """
 
     mask = warm_pool_mask(
@@ -52,9 +82,29 @@ def warm_pool_area(
         threshold=threshold,
     )
 
-    return mask.mean(
-        dim=[
-            "lat",
-            "lon",
-        ]
+
+    return float(
+        mask.sum()
+        /
+        mask.size
+    )
+
+
+
+def warm_pool_extent(
+    sst: xr.DataArray,
+    *,
+    threshold: float | None = None,
+) -> xr.DataArray:
+    """
+    Return masked SST Warm Pool field.
+    """
+
+    mask = warm_pool_mask(
+        sst,
+        threshold=threshold,
+    )
+
+    return sst.where(
+        mask
     )

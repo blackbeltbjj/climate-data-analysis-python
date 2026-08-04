@@ -24,9 +24,14 @@ def test_wavelet_scalogram():
         11,
     )
 
+    coi = np.ones(
+        100
+    )
+
     ax = wavelet_scalogram(
         power,
         periods,
+        coi=coi,
     )
 
     assert ax is not None
@@ -46,6 +51,7 @@ def test_global_spectrum_plot():
     ax = plot_global_wavelet_spectrum(
         spectrum,
         periods,
+        significance=1,
     )
 
     assert ax is not None

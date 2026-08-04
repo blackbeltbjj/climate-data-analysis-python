@@ -1,3 +1,9 @@
+# Generated climate test data
+data/raw/*.nc
+
+# Generated figures
+outputs/figures/*.png
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
